@@ -1,9 +1,9 @@
 section .text
 bits 64
 default rel
-global subtraction
+global intAdd
 
-subtraction:
+intAdd:
     MOV RAX, RCX
     ADD RAX, RDX
 

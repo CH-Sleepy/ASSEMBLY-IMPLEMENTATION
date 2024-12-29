@@ -1,9 +1,9 @@
 section .text
 bits 64
 default rel
-global multiplication
+global intMul
 
-multiplication:
+intMul:
     MOV RAX, RCX
     IMUL RDX
 

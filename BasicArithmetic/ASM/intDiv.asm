@@ -1,9 +1,9 @@
 section .text
 bits 64
 default rel
-global division
+global intDiv
 
-division:
+intDiv:
     MOV RAX, RCX
     MOV RBX, RDX
     MOV RDX, 0

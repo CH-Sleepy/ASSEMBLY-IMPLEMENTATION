@@ -1,0 +1,80 @@
+section .data
+ROW DQ 0
+COL DQ 0
+MATRIX DQ 0
+
+F_INDEX DQ 0
+S_MOD DQ 0
+
+A_ITERATION DQ 0
+
+section .text
+bits 64
+default rel
+global matrixTranspose
+
+matrixTranspose:
+    ; STORE ROW AND COLUMN VALUES
+    MOV QWORD[ROW], RCX
+    MOV QWORD[COL], RDX
+
+    ; STORE MATRIX ADDRESS
+    LEA RAX, [R8]
+    MOV QWORD[MATRIX], RAX
+
+    ; COMPUTE FOR A_ITERATION
+    MOV RAX, QWORD[ROW]
+    DEC RAX
+    MOV QWORD[A_ITERATION], RAX
+
+    ; COMPTUE FOR S_MOD
+    MOV RAX, QWORD[A_ITERATION]
+    IMUL RAX, QWORD[COL]
+    DEC RAX
+    MOV QWORD[S_MOD], RAX
+
+    ; COMPUTE TOTAL ELEMENTS
+    MOV RDX, 0
+    MOV R10, QWORD[ROW]
+    IMUL R10, QWORD[COL]
+
+    ; STORE A_ITERATION TO R11
+    MOV R11, QWORD[A_ITERATION]
+
+    ; LOOP
+    W1:
+        ; COMPUTING OFFSET
+        MOV R12, QWORD[F_INDEX]
+        IMUL R12, 4
+
+        ; TRANSFER VALUE TO RESULT MATRIX
+        MOV RAX, QWORD[MATRIX]
+        MOV RBX, [RAX + R12]
+        MOV QWORD[R9], RBX
+
+        ; INCREASE RESULT MATRIX INDEX
+        ADD R9, 4
+
+        ; MATRIX INDEX MODIFICATION BLOCK
+        CMP R11, 0
+        JE SUBTRACT
+        MOV RAX, QWORD[F_INDEX]
+        ADD RAX, QWORD[COL]
+        MOV QWORD[F_INDEX], RAX
+        DEC R11
+        JMP END
+        SUBTRACT:
+        MOV R11, QWORD[A_ITERATION]
+        MOV RAX, QWORD[F_INDEX]
+        SUB RAX, QWORD[S_MOD]
+        MOV QWORD[F_INDEX], RAX
+        END:
+
+        ; LOOP TERMINATION CONDITIONAL BLOCK
+        DEC R10
+        CMP R10, 0
+        JE EW1
+        JMP W1
+    EW1:
+    
+    RET
