@@ -1,18 +1,14 @@
 section .data
-ELEMENT_COUNT DQ 0
-M1 DQ 0
-M2 DQ 0
-R DQ 0
 
 section .text
 bits 64
 default rel
-global matrixAdd
+global matrixSub
 
-matrixAdd:
+matrixSub:
 
-    MOV R10, QWORD[ELEMENT_COUNT]
     L1:
+
         MOV RAX, [RDX]
         MOV RBX, [R8]
         ADD RAX, RBX
@@ -21,6 +17,6 @@ matrixAdd:
         ADD RDX, 4
         ADD R8, 4
         ADD R9, 4
-    LOOP L1
 
+    LOOP L1
     RET
