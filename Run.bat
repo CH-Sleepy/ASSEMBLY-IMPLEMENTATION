@@ -1,14 +1,12 @@
 @echo off
 setlocal enabledelayedexpansion
 
-set BA_ASM=BasicArithmetic\ASM
-set BA_OBJ=BasicArithmetic\OBJ
-
-set AO_ASM=ArrayOperations\ASM
-set AO_OBJ=ArrayOperations\OBJ
-
-set MO_ASM=MatrixOperation\ASM
-set MO_OBJ=MatrixOperation\OBJ
+set BA_ASM=x86-64\BasicArithmetic\ASM
+set BA_OBJ=x86-64\BasicArithmetic\OBJ
+set AO_ASM=x86-64\ArrayOperations\ASM
+set AO_OBJ=x86-64\ArrayOperations\OBJ
+set MO_ASM=x86-64\MatrixOperation\ASM
+set MO_OBJ=x86-64\MatrixOperation\OBJ
 
 for %%f in ("%BA_ASM%\*.asm") do (
     nasm -f win64 "%%f" -o "%BA_OBJ%\%%~nf.obj"
@@ -39,6 +37,6 @@ for %%f in ("%MO_OBJ%\*.obj") do (
 
 gcc -c main.c -o main.obj -std=c11 -m64
 gcc main.obj %MO_OBJF% %BA_OBJF% %AO_OBJF% -o main.exe -m64
-main.exe < test_input.txt
+main.exe < z_test_input.txt > z_output.txt
 
 endlocal
