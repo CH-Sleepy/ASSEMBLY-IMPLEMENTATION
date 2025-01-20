@@ -1,6 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
 
+set mainLoc="001C"
+
 set BA_ASM=x86-64\BasicArithmetic\ASM
 set BA_OBJ=x86-64\BasicArithmetic\OBJ
 set AO_ASM=x86-64\ArrayOperations\ASM
@@ -35,8 +37,8 @@ for %%f in ("%MO_OBJ%\*.obj") do (
     set MO_OBJF=!MO_OBJF! "%%f" 
 )
 
-gcc -c main.c -o main.obj -std=c11 -m64
-gcc main.obj %MO_OBJF% %BA_OBJF% %AO_OBJF% -o main.exe -m64
-main.exe < z_test_input.txt > z_output.txt
+gcc -c %mainLoc%\main.c -o %mainLoc%\main.obj -std=c11 -m64
+gcc %mainLoc%\main.obj %MO_OBJF% %BA_OBJF% %AO_OBJF% -o %mainLoc%\main.exe -m64
+%mainLoc%\main.exe < z_test_input.txt > z_output.txt
 
 endlocal
